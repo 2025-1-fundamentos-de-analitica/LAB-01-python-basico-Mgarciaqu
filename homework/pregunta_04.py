@@ -26,3 +26,34 @@ def pregunta_04():
      ('12', 3)]
 
     """
+    # Definir la ruta del archivo
+    data_file = "files/input/data.csv"
+    
+    # Lista para almacenar todos los meses
+    meses_encontrados = []
+    
+    # Procesar archivo línea por línea
+    with open(data_file, "r", encoding="utf-8") as f:
+        for line in f:
+            # Dividir en campos
+            fields = line.strip().split("\t")
+            
+            # Validar que existe la columna de fecha
+            if len(fields) > 2:
+                # Obtener la fecha y extraer el mes
+                fecha_completa = fields[2]
+                try:
+                    # Dividir fecha por guiones y tomar mes
+                    _, mes, _ = fecha_completa.split("-")
+                    meses_encontrados.append(mes)
+                except ValueError:
+                    # Ignorar fechas malformadas
+                    pass
+    
+    # Contar ocurrencias de cada mes
+    conteo_meses = {}
+    for mes in meses_encontrados:
+        conteo_meses[mes] = conteo_meses.get(mes, 0) + 1
+    
+    # Crear lista de tuplas ordenada
+    return sorted(list(conteo_meses.items()))

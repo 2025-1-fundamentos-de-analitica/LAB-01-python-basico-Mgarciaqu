@@ -24,3 +24,42 @@ def pregunta_09():
      'jjj': 18}}
 
     """
+    # Ubicación del archivo de datos
+    source_file = "files/input/data.csv"
+    
+    # Contador para cada clave
+    key_counter = {}
+    
+    # Leer archivo completo
+    with open(source_file, "r", encoding="utf-8") as data:
+        all_lines = data.readlines()
+        
+        for line in all_lines:
+            parts = line.strip().split("\t")
+            
+            # Solo procesar si tiene 5 columnas
+            if len(parts) >= 5:
+                # Obtener columna con pares key:value
+                key_value_column = parts[4]
+                
+                # Dividir en pares individuales
+                individual_pairs = key_value_column.split(",")
+                
+                for pair in individual_pairs:
+                    if ":" in pair:
+                        # Extraer solo la clave (antes del :)
+                        key_part = pair.split(":")[0]
+                        
+                        # Incrementar contador
+                        if key_part in key_counter:
+                            key_counter[key_part] += 1
+                        else:
+                            key_counter[key_part] = 1
+    
+    # Ordenar alfabéticamente y retornar
+    sorted_keys = sorted(key_counter.keys())
+    ordered_result = {}
+    for k in sorted_keys:
+        ordered_result[k] = key_counter[k]
+    
+    return ordered_result

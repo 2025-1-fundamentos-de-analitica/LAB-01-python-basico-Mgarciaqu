@@ -25,3 +25,41 @@ def pregunta_07():
      (9, ['A', 'B', 'E', 'A', 'A', 'C'])]
 
     """
+    # Archivo de entrada
+    input_file = "files/input/data.csv"
+    
+    # Diccionario para mapear valores a listas de letras
+    value_to_letters = {}
+    
+    # Leer y procesar datos
+    f = open(input_file, "r", encoding="utf-8")
+    content = f.read().strip().split("\n")
+    f.close()
+    
+    for record in content:
+        fields = record.split("\t")
+        
+        # Validar que tenemos al menos 2 campos
+        if len(fields) >= 2:
+            letter_field = fields[0]
+            
+            try:
+                numeric_value = int(fields[1])
+                
+                # Agregar letra a la lista del valor
+                if numeric_value not in value_to_letters:
+                    value_to_letters[numeric_value] = []
+                
+                value_to_letters[numeric_value].append(letter_field)
+                
+            except ValueError:
+                # Saltar registros con valores no numéricos
+                continue
+    
+    # Crear lista final ordenada por valor
+    result_list = []
+    for val in sorted(value_to_letters.keys()):
+        letters_list = value_to_letters[val]
+        result_list.append((val, letters_list))
+    
+    return result_list

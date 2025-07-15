@@ -27,3 +27,40 @@ def pregunta_08():
      (9, ['A', 'B', 'C', 'E'])]
 
     """
+    # Definir ruta del archivo
+    file_path = "files/input/data.csv"
+    
+    # Usar sets para evitar duplicados automáticamente
+    letters_by_value = {}
+    
+    # Abrir archivo y procesar
+    with open(file_path, "r", encoding="utf-8") as input_file:
+        for row in input_file:
+            columns = row.strip().split("\t")
+            
+            # Verificar que hay suficientes columnas
+            if len(columns) >= 2:
+                char = columns[0]
+                
+                try:
+                    num = int(columns[1])
+                    
+                    # Usar set para mantener letras únicas
+                    if num not in letters_by_value:
+                        letters_by_value[num] = set()
+                    
+                    letters_by_value[num].add(char)
+                    
+                except ValueError:
+                    # Continuar si no se puede convertir a int
+                    pass
+    
+    # Construir resultado final
+    final_output = []
+    for number in sorted(letters_by_value.keys()):
+        unique_letters = letters_by_value[number]
+        # Convertir set a lista ordenada
+        sorted_letters = sorted(list(unique_letters))
+        final_output.append((number, sorted_letters))
+    
+    return final_output

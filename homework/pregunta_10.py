@@ -20,3 +20,33 @@ def pregunta_10():
 
 
     """
+    # Archivo fuente
+    data_source = "files/input/data.csv"
+    
+    # Lista para el resultado final
+    output_list = []
+    
+    # Procesar archivo
+    file_handle = open(data_source, "r", encoding="utf-8")
+    file_content = file_handle.read()
+    file_handle.close()
+    
+    # Dividir en líneas y procesar cada una
+    rows = file_content.strip().split("\n")
+    for row in rows:
+        cols = row.split("\t")
+        
+        # Verificar que tiene todas las columnas necesarias
+        if len(cols) >= 5:
+            letter = cols[0]
+            col4_data = cols[3]  # Columna 4
+            col5_data = cols[4]  # Columna 5
+            
+            # Contar elementos separados por coma en cada columna
+            count_col4 = len(col4_data.split(","))
+            count_col5 = len(col5_data.split(","))
+            
+            # Agregar tupla al resultado
+            output_list.append((letter, count_col4, count_col5))
+    
+    return output_list
